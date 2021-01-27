@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+  <script src="solution.js"></script>
+  <script>
+    let timer = {
+        start() {
+            this.on = Date.now();
+        },
+        end(text) {
+            console.log(text, Date.now() - this.on);
+        }
+    }
+
+    let setup = (config = {}) => {
+        const PROB_COEF = config.PROB_COEF || 1.06  ; //1.02;
+        const MAX_NODES_NO = 100000;
+        let nodes_no = 0;
+
+        const generate = (root, depth, prob, minL, maxL) => {
+            // let body = document.querySelector('body');
+            if (depth>1000 || nodes_no > MAX_NODES_NO) {
+                return;
+            }
+            // console.log(root);
+            if (Math.random()<=prob) {
+                let elem = document.createElement('ol');
+                nodes_no++;
+                root.appendChild(elem);
+                let childrenNo = Math.round(minL+Math.random()*(maxL-minL));
+                for (let l1=0; l1<childrenNo; l1++) {
+                    let listItem = document.createElement('li');
+                    elem.appendChild(listItem);
+                    generate(listItem, depth+1, prob/PROB_COEF, minL, maxL);
+                }
+            }
+        }
+
+        // generate(document.querySelector('#root'), 0, 0.97, 1, 3);
+        // generate(document.querySelector('#root'), 0, 0.99, 1, 2);
+        generate(document.querySelector('#root'), 0, 0.95, 0, 4);
+
+        
+        // PROB_COEF = 1;
+        // generate(document.querySelector('#root'), 0, 1, 1, 1);
+    }
+
+    const BFSsolution = function() {
+        const treeRoot = document.querySelector('body > ol');
+        const elems = document.querySelectorAll('ol');
+
+        const V = new Map();
+
+        V.set(treeRoot, []);
+
+        for (el of elems) {
+            if (el.parentNode.parentNode.nodeName === 'OL') {
+            let edges = V.get(el.parentNode.parentNode);
+            if (!edges) {
+                V.set(el.parentNode.parentNode, []);
+            }
+            V.get(el.parentNode.parentNode).push(el);
+            }
+        }
+
+        let result = 1;
+        let queue = [[treeRoot, 1]];
+        while (queue.length) {
+            let el = queue.shift();
+            for (node of V.get(el[0]) || []) {
+            queue.push([node, el[1] + 1]);
+            result = Math.max(result, el[1] + 1);
+            }
+        }
+
+        return result;
+    };    
+
+    window.onload = () => {
+        setup();
+        // timer.start();
+        let resCheck = solution();
+        // timer.end('solution ');
+        // timer.start();
+        let slowRes = BFSsolution();
+        // timer.end('slow ')
+        
+        // console.log(resCheck === slowRes, resCheck, slowRes);
+        console.log("Twoj wynik: " + resCheck + "\nOczekiwany wynik:" + slowRes);
+        // alert("Twoj wynik: " + resCheck + "\nOczekiwany wynik:" + slowRes);
+    }
+  </script>
+</head>
+<body>
+    <ol><li id="root"></li></ol>
+</body>
+</html>

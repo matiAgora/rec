@@ -1,2 +1,2 @@
-# rec
-rec
+
+pytania rekrutacyjne
