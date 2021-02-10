@@ -1,16 +1,16 @@
-const user1 = {
-	name: 'Ania',
-  money: 15,
-  pet: {
-  	type: 'dog',
-    name: 'Reksio'
+const marvel = {
+  name: 'Thor',
+  power: 15,
+  friend: {
+    type: 'Avenger',
+    name: 'Bunner',
   },
 };
 
+const marvel1 = { ...marvel };
 
-const user2 = { ...user1 };
+marvel.friend.name = 'Kapitan';
 
-user2.pet.name = 'Azorek';
+console.log(marvel1.friend.name);
 
-console.log(user1.pet.name);
-
+// marvel1.name = 'Iron Man'
