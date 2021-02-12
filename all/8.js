@@ -7,10 +7,10 @@ const marvel = {
   },
 };
 
-const marvel1 = { ...marvel };
+const marvel_1 = { ...marvel };
 
 marvel.friend.name = 'Kapitan';
 
-console.log(marvel1.friend.name);
+console.log(marvel_1.friend.name);
 
 // marvel1.name = 'Iron Man'
