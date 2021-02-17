@@ -13,4 +13,4 @@ marvel.friend.name = 'Kapitan';
 
 console.log(marvel_1.friend.name);
 
-// marvel1.name = 'Iron Man'
+// marvel_1.name = 'Iron Man'
